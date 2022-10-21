@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasker/modules/login/pages/login.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -59,7 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       BotaoComponente(
                             texto: 'Entrar', 
                             corFundo: Colors.white, 
-                            onPressed: () {}, 
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: ((context) => const LoginPage())));
+                            }, 
                             corTexto: const Color.fromARGB(255, 22, 122, 154),
                             corSplash: const Color.fromARGB(255, 22, 122, 154),
                             ),
