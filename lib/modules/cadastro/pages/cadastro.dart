@@ -14,7 +14,6 @@ class _CadastroPageState extends State<CadastroPage> {
   final _controller1 = TextEditingController();
   final _controller2 = TextEditingController();
   final _controller3 = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
