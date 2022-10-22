@@ -4,17 +4,26 @@ class CampoForm extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final IconData icone;
+<<<<<<< HEAD
   final bool senha;
 
   const CampoForm({Key? key, required this.controller, required this.label, required this.icone, required this.senha}) : super(key: key);
+=======
+  final bool isSenha;
+
+  const CampoForm({Key? key, required this.controller, required this.label, required this.icone, required this.isSenha}) : super(key: key);
+>>>>>>> eb23198c28554f028f0cbddddf8ec5957c70c886
 
   @override
   State<CampoForm> createState() => _CampoFormState();
 }
 
 class _CampoFormState extends State<CampoForm> {
+<<<<<<< HEAD
   bool password = true;
 
+=======
+>>>>>>> eb23198c28554f028f0cbddddf8ec5957c70c886
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -31,6 +40,7 @@ class _CampoFormState extends State<CampoForm> {
             height: MediaQuery.of(context).size.height * 0.035,
             child: TextFormField(
               controller: widget.controller,
+<<<<<<< HEAD
               obscureText: widget.senha == true ?password :false,
               obscuringCharacter: '●',
               style: widget.senha ? const TextStyle(fontSize: 20, fontWeight: FontWeight.bold) : null,
@@ -63,6 +73,19 @@ class _CampoFormState extends State<CampoForm> {
                 //   widthFactor: 1,
                 //   heightFactor: 1,
                 //   child: Icon(widget.icone, color: const Color.fromARGB(255, 12, 175, 158), size: 28,))
+=======
+              obscureText: widget.isSenha,
+              obscuringCharacter: '●',
+              style: widget.isSenha ? const TextStyle(fontSize: 20, fontWeight: FontWeight.bold) : null,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.fromLTRB(0, 4, 0,0),
+                suffixIcon: Align(
+                  alignment: Alignment.bottomRight,
+                  widthFactor: 1,
+                  heightFactor: 1,
+                  child: Icon(widget.icone, color: const Color.fromARGB(255, 12, 175, 158), size: 28,))
+>>>>>>> eb23198c28554f028f0cbddddf8ec5957c70c886
               ),
             ),
           ),
