@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class CadastroPage extends StatefulWidget {
+  const CadastroPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<CadastroPage> createState() => _CadastroPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _CadastroPageState extends State<CadastroPage> {
   final _controller1 = TextEditingController();
   final _controller2 = TextEditingController();
+  final _controller3 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +47,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.1),
+                    top: MediaQuery.of(context).size.height * 0.08),
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.48,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
@@ -62,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                           const FittedBox(
                             fit: BoxFit.fill,
                             child: Text(
-                              "Entre na sua conta",
+                              "Crie uma conta",
                               style: TextStyle(
                                   wordSpacing: 4,
                                   letterSpacing: 2,
@@ -73,27 +74,28 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const Padding(padding: EdgeInsets.all(10)),
                           CampoForm(
-                            label: 'Email',
+                            label: 'Nome de Usuário',
                             controller: _controller1,
+                            isSenha: false,
+                            icone: Icons.person,
+                          ),
+                          const Padding(padding: EdgeInsets.all(10)),
+                          CampoForm(
+                            label: 'Email',
+                            controller: _controller2,
                             isSenha: false,
                             icone: Icons.email,
                           ),
-                          const Padding(padding: EdgeInsets.all(20)),
+                          const Padding(padding: EdgeInsets.all(10)),
                           CampoForm(
                             label: 'Senha',
-                            controller: _controller2,
+                            controller: _controller3,
                             isSenha: true,
                             icone: Icons.visibility_off,
                           ),
-                          const Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Esqueceu a senha?',
-                                style: TextStyle(color: Colors.grey),
-                              )),
-                          const Padding(padding: EdgeInsets.all(20)),
+                          const Padding(padding: EdgeInsets.all(15)),
                           BotaoComponente(
-                            texto: 'Entrar',
+                            texto: 'Cadastrar',
                             corFundo: const Color.fromARGB(255, 12, 175, 158),
                             onPressed: () {},
                             corTexto: Colors.white,
@@ -108,10 +110,10 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: Text.rich(TextSpan(
-                    text: 'Não tem uma conta? ',
+                    text: 'Já tem uma conta? ',
                     children: <InlineSpan>[
                       TextSpan(
-                          text: 'Cadastre-se agora',
+                          text: 'Entre agora',
                           style: const TextStyle(
                               color: Color.fromARGB(255, 12, 175, 158),
                               decoration: TextDecoration.underline),

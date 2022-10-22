@@ -26,8 +26,8 @@ class _BotaoComponenteState extends State<BotaoComponente> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 40,
-        width: 300,
+        height: MediaQuery.of(context).size.height * 0.055,
+        width: MediaQuery.of(context).size.width * 0.8,
         child: ElevatedButton(
           onPressed: widget.onPressed,
           style: ElevatedButton.styleFrom(

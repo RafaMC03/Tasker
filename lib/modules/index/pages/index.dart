@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasker/modules/cadastro/pages/cadastro.dart';
 import 'package:tasker/modules/login/pages/login.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 
@@ -77,7 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           BotaoComponente(
                             texto: 'Cadastrar', 
                             corFundo: const Color.fromARGB(255, 22, 122, 154), 
-                            onPressed: () {}, 
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: ((context) => const CadastroPage())));
+                            }, 
                             corTexto: Colors.white,
                             corBorda: Colors.white,
                             ),
