@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "807056065267",
+    "project_id": "tasker-g1",
+    "storage_bucket": "tasker-g1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807056065267:android:b917b45a50a45ef478ed86",
+        "android_client_info": {
+          "package_name": "com.example.tasker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807056065267-dhgl16u54qm120tefjf6deooa6m21enr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tasker",
+            "certificate_hash": "d352c2b6f5e3f96ce891c9ece021dc5fd389c7a1"
+          }
+        },
+        {
+          "client_id": "807056065267-h0pp9j4u0kot1lq04pvbgosile3f5opv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfLqtD-7PbQYI3qC-9zIYfnACm1D2HfW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807056065267-h0pp9j4u0kot1lq04pvbgosile3f5opv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
