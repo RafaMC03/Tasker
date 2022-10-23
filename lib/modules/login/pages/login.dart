@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tasker/modules/login/controller/loginController.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
 
@@ -13,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _controller1 = TextEditingController();
   final _controller2 = TextEditingController();
+  LoginController controller = LoginController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,24 @@ class _LoginPageState extends State<LoginPage> {
                             BotaoComponente(
                               texto: 'Entrar',
                               corFundo: const Color.fromARGB(255, 12, 175, 158),
-                              onPressed: () {},
+                              onPressed: () {
+                                controller
+                                    .login(_controller1.text, _controller2.text,
+                                        //TODO: Fazer rota
+                                        () {
+                                  print("LOGADO");
+                                },
+                                        (err) => showDialog(
+                                              context: context,
+                                              builder: (context) => Dialog(
+                                                  child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text("Erro: $err"),
+                                                ],
+                                              )),
+                                            ));
+                              },
                               corTexto: Colors.white,
                               corSplash: Colors.white,
                             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tasker/modules/cadastro/controller/cadastro_controller.dart';
+import 'package:tasker/modules/index/pages/index.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
 
@@ -14,6 +16,7 @@ class _CadastroPageState extends State<CadastroPage> {
   final _controller1 = TextEditingController();
   final _controller2 = TextEditingController();
   final _controller3 = TextEditingController();
+  CadastroController controller = CadastroController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +101,28 @@ class _CadastroPageState extends State<CadastroPage> {
                             BotaoComponente(
                               texto: 'Cadastrar',
                               corFundo: const Color.fromARGB(255, 12, 175, 158),
-                              onPressed: () {},
+                              onPressed: () async {
+                                await controller.criarConta(_controller2.text,
+                                    _controller3.text, _controller1.text, () {
+                                  //TODO: Mudar rota
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MyHomePage()));
+                                }, (erro) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                        child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text("Erro: $erro"),
+                                      ],
+                                    )),
+                                  );
+                                });
+                              },
                               corTexto: Colors.white,
                               corSplash: Colors.white,
                             ),
