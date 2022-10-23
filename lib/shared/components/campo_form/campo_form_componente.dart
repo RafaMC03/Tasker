@@ -19,6 +19,8 @@ class CampoForm extends StatefulWidget {
 }
 
 class _CampoFormState extends State<CampoForm> {
+  bool password = true;
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -36,7 +38,7 @@ class _CampoFormState extends State<CampoForm> {
             child: TextFormField(
               cursorColor: const Color.fromARGB(255, 12, 175, 158),
               controller: widget.controller,
-              obscureText: widget.isSenha,
+              obscureText: widget.isSenha == true ? password : false,
               obscuringCharacter: '●',
               style: widget.isSenha
                   ? const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
@@ -44,15 +46,41 @@ class _CampoFormState extends State<CampoForm> {
               decoration: InputDecoration(
                   isDense: true,
                   contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                  suffixIcon: Align(
-                      alignment: Alignment.bottomRight,
-                      widthFactor: 1,
-                      heightFactor: 1,
-                      child: Icon(
-                        widget.icone,
-                        color: const Color.fromARGB(255, 12, 175, 158),
-                        size: 28,
-                      ))),
+                  suffixIcon: widget.isSenha == true
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              password = !password;
+                            });
+                          },
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            widthFactor: 1,
+                            heightFactor: 1,
+                            child: password == true
+                                ? const Icon(
+                                    Icons.visibility_off,
+                                    color:
+                                        const Color.fromARGB(255, 12, 175, 158),
+                                    size: 28,
+                                  )
+                                : const Icon(
+                                    Icons.visibility,
+                                    color:
+                                        const Color.fromARGB(255, 12, 175, 158),
+                                    size: 28,
+                                  ),
+                          ),
+                        )
+                      : Align(
+                          alignment: Alignment.bottomRight,
+                          widthFactor: 1,
+                          heightFactor: 1,
+                          child: Icon(
+                            widget.icone,
+                            color: const Color.fromARGB(255, 12, 175, 158),
+                            size: 28,
+                          ))),
             ),
           ),
         ],
