@@ -1,19 +1,38 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tasker/modules/cadastro/models/usuario_model.dart';
 
 class CadastroController extends ChangeNotifier {
-  criarConta(String email, String senha, String nome, VoidCallback sucesso,
+  final nome = TextEditingController();
+  final email = TextEditingController();
+  final senha = TextEditingController();
+
+  criarConta(VoidCallback sucesso,
       Function(String e) erro) async {
     try {
+      var usuario = Usuario(
+        nome: nome.text.trim(),
+        email: email.text.trim()
+      );
+      usuario.isValid();
+
+      if (senha.text.isEmpty) {
+        throw Exception('Campos obrigatórios não informados!');
+      }
+
       var result = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: senha);
+          .createUserWithEmailAndPassword(email: email.text.trim(), password: senha.text);
 
       if (result.user != null) {
-        await result.user!.updateDisplayName(nome).then((value) => sucesso());
+        await result.user!.updateDisplayName(nome.text).then((value) => sucesso());
       }
     } catch (e) {
       print(e);
-      erro(e.toString());
+      String erroMessage = e.toString();
+      if (e.toString().contains('Exception:')) {
+        erroMessage = e.toString().substring(11);
+      }
+      erro(erroMessage);
       return e;
     }
   }

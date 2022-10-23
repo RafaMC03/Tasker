@@ -34,6 +34,7 @@ class _CampoFormState extends State<CampoForm> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.035,
             child: TextFormField(
+              cursorColor: const Color.fromARGB(255, 12, 175, 158),
               controller: widget.controller,
               obscureText: widget.isSenha,
               obscuringCharacter: '●',
