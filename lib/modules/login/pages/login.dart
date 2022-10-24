@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tasker/modules/cadastro/pages/cadastro.dart';
 import 'package:tasker/modules/login/controller/loginController.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
@@ -22,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height,
             decoration:
                 const BoxDecoration(color: Color.fromARGB(255, 241, 241, 241)),
             child: Center(
@@ -54,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                         top: MediaQuery.of(context).size.height * 0.1),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.height * 0.48,
+                      height: MediaQuery.of(context).size.height * 0.43,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15),
@@ -138,7 +140,16 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Color.fromARGB(255, 12, 175, 158),
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) => const CadastroPage()))),
+                              ..onTap = () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.bottomToTop,
+                                    child: CadastroPage(),
+                                    duration: Duration(milliseconds: 600)
+                                  ),
+                                );
+                              }
                           )
                         ])),
                   )

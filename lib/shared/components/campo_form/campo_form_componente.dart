@@ -40,9 +40,6 @@ class _CampoFormState extends State<CampoForm> {
               controller: widget.controller,
               obscureText: widget.isSenha == true ? password : false,
               obscuringCharacter: '●',
-              style: widget.isSenha
-                  ? const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
-                  : null,
               decoration: InputDecoration(
                   isDense: true,
                   contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 0),

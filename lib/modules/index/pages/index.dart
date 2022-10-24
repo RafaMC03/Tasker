@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tasker/modules/cadastro/pages/cadastro.dart';
 import 'package:tasker/modules/login/pages/login.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
@@ -37,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const [
-                     Text(
+                    Text(
                       'TASKER',
                       style: TextStyle(
                           fontSize: 80,
@@ -59,31 +60,44 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       BotaoComponente(
-                            texto: 'Entrar', 
-                            corFundo: Colors.white, 
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: ((context) => const LoginPage())));
-                            }, 
-                            corTexto: const Color.fromARGB(255, 22, 122, 154),
-                            corSplash: const Color.fromARGB(255, 22, 122, 154),
-                            ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 13.0),
-                            child: Text('Não tem uma conta?',
-                            style: TextStyle(
-                              color: Colors.white
-                            ),
-                            ),
-                          ),
-                          BotaoComponente(
-                            texto: 'Cadastrar', 
-                            corFundo: const Color.fromARGB(255, 22, 122, 154), 
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: ((context) => const CadastroPage())));
-                            }, 
-                            corTexto: Colors.white,
-                            corBorda: Colors.white,
-                            ),
+                        texto: 'Entrar',
+                        corFundo: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: LoginPage(),
+                                duration: Duration(milliseconds: 600)
+                              ),
+                          );
+                        },
+                        corTexto: const Color.fromARGB(255, 22, 122, 154),
+                        corSplash: const Color.fromARGB(255, 22, 122, 154),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 13.0),
+                        child: Text(
+                          'Não tem uma conta?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      BotaoComponente(
+                        texto: 'Cadastrar',
+                        corFundo: const Color.fromARGB(255, 22, 122, 154),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: CadastroPage(),
+                                duration: Duration(milliseconds: 600)
+                              ),
+                          );
+                        },
+                        corTexto: Colors.white,
+                        corBorda: Colors.white,
+                      ),
                     ],
                   ),
                 ),
