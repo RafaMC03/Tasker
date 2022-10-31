@@ -85,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                                 controller: _controller.email,
                                 icone: Icons.email,
                                 isSenha: false,
+                                tipoTexto: TextInputType.emailAddress,
                               ),
                               const Padding(padding: EdgeInsets.all(20)),
                               CampoForm(

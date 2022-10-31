@@ -91,6 +91,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                 controller: _controller.email,
                                 icone: Icons.email,
                                 isSenha: false,
+                                tipoTexto: TextInputType.emailAddress,
                               ),
                               const Padding(padding: EdgeInsets.all(10)),
                               CampoForm(

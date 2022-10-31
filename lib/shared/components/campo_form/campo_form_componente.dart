@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CampoForm extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final IconData icone;
   final bool isSenha;
+  final TextInputType? tipoTexto;
 
   const CampoForm(
       {Key? key,
       required this.controller,
       required this.label,
       required this.icone,
-      required this.isSenha})
+      required this.isSenha,
+      this.tipoTexto})
       : super(key: key);
 
   @override
@@ -40,6 +43,11 @@ class _CampoFormState extends State<CampoForm> {
               controller: widget.controller,
               obscureText: widget.isSenha == true ? password : false,
               obscuringCharacter: '●',
+              keyboardType: widget.tipoTexto ?? TextInputType.text,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(
+                    '(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+              ],
               decoration: InputDecoration(
                   isDense: true,
                   contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
