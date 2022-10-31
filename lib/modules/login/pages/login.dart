@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tasker/modules/cadastro/pages/cadastro.dart';
+import 'package:tasker/modules/index/pages/index.dart';
 import 'package:tasker/modules/login/controller/loginController.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
@@ -101,24 +102,26 @@ class _LoginPageState extends State<LoginPage> {
                               const Padding(padding: EdgeInsets.all(20)),
                               BotaoComponente(
                                 texto: 'Entrar',
-                                corFundo: const Color.fromARGB(255, 12, 175, 158),
+                                corFundo:
+                                    const Color.fromARGB(255, 12, 175, 158),
                                 onPressed: () {
-                                  _controller
-                                      .login(
-                                          //TODO: Fazer rota
-                                          () {
-                                    print("LOGADO");
+                                  _controller.login(() {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyHomePage()));
                                   },
-                                          (err) => showDialog(
-                                                context: context,
-                                                builder: (context) => Dialog(
-                                                    child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Text("Erro: $err"),
-                                                  ],
-                                                )),
-                                              ));
+                                      (err) => showDialog(
+                                            context: context,
+                                            builder: (context) => Dialog(
+                                                child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text("Erro: $err"),
+                                              ],
+                                            )),
+                                          ));
                                 },
                                 corTexto: Colors.white,
                                 corSplash: Colors.white,
@@ -135,22 +138,20 @@ class _LoginPageState extends State<LoginPage> {
                         text: 'Não tem uma conta? ',
                         children: <InlineSpan>[
                           TextSpan(
-                            text: 'Cadastre-se agora',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 12, 175, 158),
-                                decoration: TextDecoration.underline),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.bottomToTop,
-                                    child: CadastroPage(),
-                                    duration: Duration(milliseconds: 600)
-                                  ),
-                                );
-                              }
-                          )
+                              text: 'Cadastre-se agora',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 12, 175, 158),
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.bottomToTop,
+                                        child: CadastroPage(),
+                                        duration: Duration(milliseconds: 600)),
+                                  );
+                                })
                         ])),
                   )
                 ],

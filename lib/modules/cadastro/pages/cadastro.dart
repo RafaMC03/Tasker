@@ -102,7 +102,8 @@ class _CadastroPageState extends State<CadastroPage> {
                               const Padding(padding: EdgeInsets.all(15)),
                               BotaoComponente(
                                 texto: 'Cadastrar',
-                                corFundo: const Color.fromARGB(255, 12, 175, 158),
+                                corFundo:
+                                    const Color.fromARGB(255, 12, 175, 158),
                                 onPressed: () async {
                                   await _controller.criarConta(() {
                                     //TODO: Mudar rota
@@ -110,7 +111,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const MyHomePage()));
+                                                const LoginPage()));
                                   }, (erro) {
                                     showDialog(
                                       context: context,
@@ -139,22 +140,20 @@ class _CadastroPageState extends State<CadastroPage> {
                         text: 'Já tem uma conta? ',
                         children: <InlineSpan>[
                           TextSpan(
-                            text: 'Entre agora',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 12, 175, 158),
-                                decoration: TextDecoration.underline),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.bottomToTop,
-                                    child: LoginPage(),
-                                    duration: Duration(milliseconds: 600)
-                                  ),
-                                );
-                              }
-                          )
+                              text: 'Entre agora',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 12, 175, 158),
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.bottomToTop,
+                                        child: LoginPage(),
+                                        duration: Duration(milliseconds: 600)),
+                                  );
+                                })
                         ])),
                   )
                 ],
