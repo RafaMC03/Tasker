@@ -1,8 +1,8 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tasker/modules/cadastro/pages/cadastro.dart';
-import 'package:tasker/modules/index/pages/index.dart';
 import 'package:tasker/modules/login/controller/loginController.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginController _controller = LoginController();
+  final LoginController _controller = LoginController();
 
   @override
   Widget build(BuildContext context) {
@@ -105,24 +105,54 @@ class _LoginPageState extends State<LoginPage> {
                                 texto: 'Entrar',
                                 corFundo:
                                     const Color.fromARGB(255, 12, 175, 158),
-                                onPressed: () {
-                                  _controller.login(() {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MyHomePage()));
+                                onPressed: () async {
+                                  var cancel = BotToast.showLoading();
+                                  await _controller.login(() {
+                                    Navigator.pop(context, "/");
                                   },
                                       (err) => showDialog(
                                             context: context,
                                             builder: (context) => Dialog(
-                                                child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text("Erro: $err"),
-                                              ],
-                                            )),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color:
+                                                              Colors.red[600]!,
+                                                          width: 5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.cancel_outlined,
+                                                        color: Colors.red[600],
+                                                        size: 50,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      Text(
+                                                        "Erro: $err",
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w100,
+                                                            fontSize: 15),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
                                           ));
+                                  cancel();
                                 },
                                 corTexto: Colors.white,
                                 corSplash: Colors.white,
@@ -149,8 +179,9 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     PageTransition(
                                         type: PageTransitionType.bottomToTop,
-                                        child: CadastroPage(),
-                                        duration: Duration(milliseconds: 600)),
+                                        child: const CadastroPage(),
+                                        duration:
+                                            const Duration(milliseconds: 600)),
                                   );
                                 })
                         ])),

@@ -64,12 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         corFundo: Colors.white,
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
+                            context,
+                            PageTransition(
                                 type: PageTransitionType.leftToRight,
-                                child: LoginPage(),
-                                duration: Duration(milliseconds: 600)
-                              ),
+                                child: const LoginPage(),
+                                duration: const Duration(milliseconds: 600)),
                           );
                         },
                         corTexto: const Color.fromARGB(255, 22, 122, 154),
@@ -87,12 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         corFundo: const Color.fromARGB(255, 22, 122, 154),
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
+                            context,
+                            PageTransition(
                                 type: PageTransitionType.rightToLeft,
-                                child: CadastroPage(),
-                                duration: Duration(milliseconds: 600)
-                              ),
+                                child: const CadastroPage(),
+                                duration: const Duration(milliseconds: 600)),
                           );
                         },
                         corTexto: Colors.white,
