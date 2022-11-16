@@ -41,10 +41,25 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Sem tarefas cadastradas"),
+
+                  //modelo das tarefas
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      width: 380,                                                 //arrumar largura
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Color.fromARGB(255, 12, 175, 158), width: 2)
+                      ),
+                      child: ListTile(
+                        trailing: Text('30 nov'),
+                        subtitle: Text('Terminar home page'),                    //quebra de linha automatica
+                        title: Text('Sprint 3 - PSI'),
+                      ),
+                    ),
+                  ),
                   TextButton(
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
