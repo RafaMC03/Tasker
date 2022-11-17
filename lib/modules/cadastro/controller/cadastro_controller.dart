@@ -7,24 +7,35 @@ class CadastroController extends ChangeNotifier {
   final email = TextEditingController();
   final senha = TextEditingController();
 
-  criarConta(VoidCallback sucesso,
-      Function(String e) erro) async {
+  criarConta(VoidCallback sucesso, Function(String e) erro) async {
     try {
-      var usuario = Usuario(
-        nome: nome.text.trim(),
-        email: email.text.trim()
-      );
+      var usuario = Usuario(nome: nome.text.trim(), email: email.text.trim());
       usuario.isValid();
 
       if (senha.text.isEmpty) {
         throw Exception('Campos obrigatórios não informados!');
       }
 
-      var result = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email.text.trim(), password: senha.text);
+      var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email.text.trim(), password: senha.text);
 
       if (result.user != null) {
-        await result.user!.updateDisplayName(nome.text).then((value) => sucesso());
+        await result.user!
+            .updateDisplayName(nome.text)
+            .then((value) => sucesso());
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      switch (e.code) {
+        case "invalid-email":
+          erro("Email inválido");
+          break;
+        case "weak-password":
+          erro("Senha inválida/insegura");
+          break;
+        case "email-already-in-use":
+          erro("Esse email já está em uso");
+          break;
       }
     } catch (e) {
       print(e);

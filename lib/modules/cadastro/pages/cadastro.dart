@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tasker/modules/cadastro/controller/cadastro_controller.dart';
-import 'package:tasker/modules/index/pages/index.dart';
 import 'package:tasker/modules/login/pages/login.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
@@ -15,7 +14,7 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-  CadastroController _controller = CadastroController();
+  final CadastroController _controller = CadastroController();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -108,21 +107,44 @@ class _CadastroPageState extends State<CadastroPage> {
                                 onPressed: () async {
                                   await _controller.criarConta(() {
                                     //TODO: Mudar rota
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginPage()));
-                                  }, (erro) {
+                                    Navigator.pop(
+                                      context,
+                                    );
+                                  }, (err) {
                                     showDialog(
                                       context: context,
                                       builder: (context) => Dialog(
-                                          child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text("Erro: $erro"),
-                                        ],
-                                      )),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.red[600]!,
+                                                    width: 5),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.cancel_outlined,
+                                                  color: Colors.red[600],
+                                                  size: 50,
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Text(
+                                                  "Erro: $err",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w100,
+                                                      fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
                                     );
                                   });
                                 },
@@ -151,8 +173,9 @@ class _CadastroPageState extends State<CadastroPage> {
                                     context,
                                     PageTransition(
                                         type: PageTransitionType.bottomToTop,
-                                        child: LoginPage(),
-                                        duration: Duration(milliseconds: 600)),
+                                        child: const LoginPage(),
+                                        duration:
+                                            const Duration(milliseconds: 600)),
                                   );
                                 })
                         ])),
