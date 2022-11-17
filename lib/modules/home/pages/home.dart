@@ -73,58 +73,61 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                 children: [
                   //modelo das tarefas
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.027),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
+                      width: MediaQuery.of(context).size.width * 0.92,
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 255, 255, 255),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                               color: const Color.fromARGB(255, 12, 175, 158),
                               width: 2)),
-                      child: ExpansionTile(
-                        backgroundColor: Colors.white,
-                        onExpansionChanged: (expandido){
-                          setState(() {
-                            _expandido = expandido;
-                            if(_tamanhoLinha < 20){
-                              _tamanhoLinha = 20;
-                            }
-                            else{
-                              _tamanhoLinha = 2;
-                            }
-                          });
-                        },
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [ 
-                            const Text('30 nov', style: TextStyle(color: Color.fromARGB(255, 12, 175, 158)),),
-                            Text('Expandir', style: TextStyle(color: _expandido == false ? const Color.fromARGB(255, 12, 175, 158) : const Color.fromARGB(0, 0, 0, 0)),),
-                          ]
-                        ),                        
-                        subtitle: Text(
-                            'Terminar home page', maxLines: _tamanhoLinha, style: const TextStyle(color:Color.fromARGB(255, 0, 0, 0)),),
-                        title: const Text(
-                          'Sprint 3 - PSI',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 12, 175, 158),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.04,MediaQuery.of(context).size.width * 0.014),
-                                child: TextButton(
-                                  child: const Text("Excluir", style: TextStyle(color: Color.fromARGB(255, 12, 175, 158))),
-                                  onPressed: () {
-                                    //função excluir
-                                  }
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: ExpansionTile(
+                          backgroundColor: Colors.white,
+                          onExpansionChanged: (expandido){
+                            setState(() {
+                              _expandido = expandido;
+                              if(_tamanhoLinha < 20){
+                                _tamanhoLinha = 20;
+                              }
+                              else{
+                                _tamanhoLinha = 2;
+                              }
+                            });
+                          },
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [ 
+                              const Text('30 nov', style: TextStyle(color: Color.fromARGB(255, 12, 175, 158)),),
+                              Text('Expandir', style: TextStyle(color: _expandido == false ? const Color.fromARGB(255, 12, 175, 158) : const Color.fromARGB(0, 0, 0, 0)),),
+                            ]
+                          ),                        
+                          subtitle: Text(
+                              'Terminar home page', maxLines: _tamanhoLinha, style: const TextStyle(color:Color.fromARGB(255, 133, 129, 129)),),
+                          title: const Text(
+                            'Sprint 3 - PSI',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 12, 175, 158),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.04,MediaQuery.of(context).size.width * 0.014),
+                                  child: TextButton(
+                                    child: const Text("Excluir", style: TextStyle(color: Color.fromARGB(255, 12, 175, 158))),
+                                    onPressed: () {
+                                      //função excluir
+                                    }
+                                  )
                                 )
-                              )
-                            ],)
-                        ],
+                              ],)
+                          ],
+                        ),
                       ),
                     ),
                   )

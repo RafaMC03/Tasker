@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasker/modules/home/controllers/controller.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
-import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_tarefas.dart';
 
 final controllerTitulo = TextEditingController();
@@ -83,7 +82,7 @@ class _cadTarefasState extends State<cadTarefas> {
                       texto: 'Cadastrar tarefa',
                       corFundo: const Color.fromARGB(255, 12, 175, 158),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context); // usar a função DateFormat('dd/MM/yyyy').format(data) para passar a data pro banco
                       },
                       corTexto: Colors.white),
                 ),

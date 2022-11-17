@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CampoFormTarefas extends StatefulWidget {
   final String label;
@@ -83,22 +81,22 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                   onPressed: (() {
                                     showDatePicker(
                                         context: context,
-                                        locale: Locale('pt', 'BR'),
+                                        locale: const Locale('pt', 'BR'),
                                         initialDate: DateTime.now(),
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now()
-                                            .add(Duration(days: 30)),
+                                            .add(const Duration(days: 30)),
                                         builder: ((context, child) {
                                           return Theme(
                                               data: ThemeData.light().copyWith(
                                                 primaryColor:
                                                     const Color.fromARGB(
                                                         255, 12, 175, 158),
-                                                colorScheme: ColorScheme.light(
+                                                colorScheme: const ColorScheme.light(
                                                     onPrimary: Colors.black,
-                                                    primary: const Color.fromARGB(
+                                                    primary: Color.fromARGB(
                                                         255, 12, 175, 158)),
-                                                buttonTheme: ButtonThemeData(
+                                                buttonTheme: const ButtonThemeData(
                                                     textTheme:
                                                         ButtonTextTheme.primary),
                                               ),
