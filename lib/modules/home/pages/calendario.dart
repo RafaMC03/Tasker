@@ -13,6 +13,7 @@ class _CalendarioState extends State<Calendario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 241, 241, 241),
       body: ListView(
         children: [
           Center(

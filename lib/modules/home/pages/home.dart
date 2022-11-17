@@ -13,9 +13,12 @@ class HomeIndexPage extends StatefulWidget {
 
 class _HomeIndexPageState extends State<HomeIndexPage> {
   final pageViewController = PageController();
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext conNtext) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 241, 241, 241),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -27,14 +30,38 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                 duration: const Duration(milliseconds: 300)),
           );
         },
-        child: Icon(Icons.add),
-        backgroundColor: Color.fromARGB(255, 12, 175, 158),
+        child: const Icon(Icons.add),
+        backgroundColor: const Color.fromARGB(255, 12, 175, 158),
       ),
       appBar: AppBar(
-        title: Text('Tarefas'),
-        backgroundColor: Color.fromARGB(255, 12, 175, 158),
+        title: const Text('Tarefas'),
+        backgroundColor: const Color.fromARGB(255, 12, 175, 158),
+        actions: [
+          TextButton.icon(
+              style: TextButton.styleFrom(primary: Colors.white),
+              icon: const Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+              label: const Text(
+                "Logout",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ))
+        ],
       ),
       body: PageView(
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         controller: pageViewController,
         children: [
           SafeArea(
@@ -42,55 +69,135 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
-
                   //modelo das tarefas
 
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Container(
-                      width: 380,                                                 //arrumar largura
+                      width: 380, //arrumar largura
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Color.fromARGB(255, 12, 175, 158), width: 2)
-                      ),
-                      child: ListTile(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: const Color.fromARGB(255, 12, 175, 158),
+                              width: 2)),
+                      child: const ListTile(
                         trailing: Text('30 nov'),
-                        subtitle: Text('Terminar home page'),                    //quebra de linha automatica
-                        title: Text('Sprint 3 - PSI'),
+                        subtitle: Text(
+                            'Terminar home page'), //quebra de linha automatica
+                        title: Text(
+                          'Sprint 3 - PSI',
+                          style: TextStyle(
+                              color: const Color.fromARGB(255, 12, 175, 158),
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
-                  TextButton(
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                      },
-                      child: const Text("Logout"))
                 ],
               ),
             ),
           ),
-          Calendario()
+          const Calendario()
         ],
       ),
       bottomNavigationBar: AnimatedBuilder(
           animation: pageViewController,
           builder: (context, snapshot) {
-            return BottomNavigationBar(
-              fixedColor: Color.fromARGB(255, 12, 175, 158),
-              currentIndex: pageViewController.page?.round() ?? 0,
-              onTap: (index) {
-                pageViewController.jumpToPage(index);
-              },
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.list,
+            return Container(
+              height: 70,
+              decoration: const BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+                        color: Color.fromARGB(80, 133, 129, 129), width: 2.5)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                        pageViewController.jumpToPage(_selectedIndex);
+                      });
+                    },
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.list,
+                              color: _selectedIndex == 0
+                                  ? Color.fromARGB(255, 12, 175, 158)
+                                  : Color.fromARGB(140, 22, 20, 20)),
+                          Text(
+                            "Registros",
+                            style: TextStyle(
+                                color: _selectedIndex == 0
+                                    ? Color.fromARGB(255, 12, 175, 158)
+                                    : Color.fromARGB(140, 22, 20, 20)),
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+                  const VerticalDivider(
+                    thickness: 3,
+                    indent: 10,
+                    endIndent: 10,
+                    color: Color.fromARGB(80, 133, 129, 129),
                   ),
-                  label: 'Registros',
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_month), label: 'Calandário'),
-              ],
+                  Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                        pageViewController.jumpToPage(_selectedIndex);
+                      });
+                    },
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.calendar_month,
+                              color: _selectedIndex == 1
+                                  ? Color.fromARGB(255, 12, 175, 158)
+                                  : Color.fromARGB(140, 22, 20, 20)),
+                          Text(
+                            "Calendários",
+                            style: TextStyle(
+                                color: _selectedIndex == 1
+                                    ? Color.fromARGB(255, 12, 175, 158)
+                                    : Color.fromARGB(140, 22, 20, 20)),
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+              // child: BottomNavigationBar(
+              //   fixedColor: const Color.fromARGB(255, 12, 175, 158),
+              //   currentIndex: pageViewController.page?.round() ?? 0,
+              //   onTap: (index) {
+              //     pageViewController.jumpToPage(index);
+              //   },
+              //   items: const [
+              //     BottomNavigationBarItem(
+              //       tooltip: 'Todas as Tarefas',
+              //       icon: Icon(
+              //         Icons.list,
+              //       ),
+              //       label: 'Registros',
+              //     ),
+              //     BottomNavigationBarItem(
+              //         tooltip: 'Calendário de Tarefas',
+              //         icon: Icon(Icons.calendar_month),
+              //         label: 'Calandário'),
+              //   ],
+              // )
             );
           }),
     );

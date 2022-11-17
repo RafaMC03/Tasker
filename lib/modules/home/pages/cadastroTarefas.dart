@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:tasker/modules/home/controllers/controller.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_componente.dart';
+import 'package:tasker/shared/components/campo_form/campo_form_tarefas.dart';
 
 final controllerTitulo = TextEditingController();
 
@@ -14,111 +14,83 @@ class cadTarefas extends StatefulWidget {
 }
 
 class _cadTarefasState extends State<cadTarefas> {
+  final _controller = CadastroTarefasController();
+  List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNodes.forEach((node) {
+      node.addListener(() {
+        setState(() {});
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Nova tarefa'),
-        backgroundColor: Color.fromARGB(255, 12, 175, 158),
-      ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Column(
-              children: [
-                Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Icon(
-                      Icons.local_offer_outlined,
-                      color: Color.fromARGB(255, 133, 129, 129),
-                    )),
-                Expanded(
-                  flex: 10,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        label: Text(
-                      'Título',
-                      style: TextStyle(color: Color.fromARGB(255, 133, 129, 129)),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Icon(
-                      Icons.text_snippet_outlined,
-                      color: Color.fromARGB(255, 133, 129, 129),
-                    )),
-                Expanded(
-                  flex: 10,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        label: Text(
-                      'Descrição',
-                      style: TextStyle(color: Color.fromARGB(255, 133, 129, 129)),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Icon(
-                      Icons.calendar_today_outlined,
-                      color: Color.fromARGB(255, 133, 129, 129),
-                    )),
-                Expanded(
-                  flex: 10,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: Text(
-                        'Data de prazo',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 133, 129, 129)),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Nova tarefa'),
+          backgroundColor: const Color.fromARGB(255, 12, 175, 158),
+        ),
+        body: ListView(
+          children: [
+            Theme(
+              data: Theme.of(context).copyWith(),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Form(
+                  child: Column(
+                    children: [
+                      CampoFormTarefas(
+                        label: 'Título',
+                        icone: Icons.local_offer_outlined,
+                        node: _focusNodes[0],
+                        isData: false,
+                        controller: _controller.titulo,
                       ),
-                      suffixIcon: Container(
-                          margin: EdgeInsets.only(left: 4),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  left: BorderSide(
-                                      color:
-                                          Color.fromARGB(255, 133, 129, 129)))),
-                          child: IconButton(
-                              onPressed: (() {
-
-                              }),
-                              icon: Icon(Icons.calendar_today_outlined))),
-                    ),
+                      CampoFormTarefas(
+                        label: 'Descrição',
+                        icone: Icons.text_snippet_outlined,
+                        node: _focusNodes[1],
+                        isData: false,
+                        controller: _controller.descricao,
+                      ),
+                      CampoFormTarefas(
+                        label: 'Data de Prazo',
+                        icone: Icons.calendar_today_outlined,
+                        node: _focusNodes[2],
+                        isData: true,
+                        controller: _controller.data,
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-              ],
-            ),
-          ),
-          Column(
+            Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: BotaoComponente(
-                    texto: 'Cadastrar tarefa', 
-                    corFundo: Color.fromARGB(255, 12, 175, 158), 
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }, 
-                    corTexto: Colors.white),
+                      texto: 'Cadastrar tarefa',
+                      corFundo: const Color.fromARGB(255, 12, 175, 158),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      corTexto: Colors.white),
                 ),
               ],
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
