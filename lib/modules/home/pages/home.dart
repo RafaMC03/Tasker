@@ -14,11 +14,13 @@ class HomeIndexPage extends StatefulWidget {
 class _HomeIndexPageState extends State<HomeIndexPage> {
   final pageViewController = PageController();
   int _selectedIndex = 0;
+  int _tamanhoLinha = 2;
+  bool _expandido = false;
 
   @override
   Widget build(BuildContext conNtext) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 241, 241, 241),
+      backgroundColor: _expandido == false ? const Color.fromARGB(255, 241, 241, 241) : Color.fromARGB(120, 241, 241, 241),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -70,29 +72,62 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
               child: Column(
                 children: [
                   //modelo das tarefas
-
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Container(
-                      width: 380, //arrumar largura
+                      width: MediaQuery.of(context).size.width * 0.95,
                       decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                               color: const Color.fromARGB(255, 12, 175, 158),
                               width: 2)),
-                      child: const ListTile(
-                        trailing: Text('30 nov'),
+                      child: ExpansionTile(
+                        backgroundColor: Colors.white,
+                        onExpansionChanged: (expandido){
+                          setState(() {
+                            _expandido = expandido;
+                            if(_tamanhoLinha < 20){
+                              _tamanhoLinha = 20;
+                            }
+                            else{
+                              _tamanhoLinha = 2;
+                            }
+                          });
+                        },
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [ 
+                            const Text('30 nov', style: TextStyle(color: Color.fromARGB(255, 12, 175, 158)),),
+                            Text('Expandir', style: TextStyle(color: _expandido == false ? const Color.fromARGB(255, 12, 175, 158) : const Color.fromARGB(0, 0, 0, 0)),),
+                          ]
+                        ),                        
                         subtitle: Text(
-                            'Terminar home page'), //quebra de linha automatica
-                        title: Text(
+                            'Terminar home page', maxLines: _tamanhoLinha, style: const TextStyle(color:Color.fromARGB(255, 0, 0, 0)),),
+                        title: const Text(
                           'Sprint 3 - PSI',
                           style: TextStyle(
-                              color: const Color.fromARGB(255, 12, 175, 158),
+                              color: Color.fromARGB(255, 12, 175, 158),
                               fontWeight: FontWeight.bold),
                         ),
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.04,MediaQuery.of(context).size.width * 0.014),
+                                child: TextButton(
+                                  child: const Text("Excluir", style: TextStyle(color: Color.fromARGB(255, 12, 175, 158))),
+                                  onPressed: () {
+                                    //função excluir
+                                  }
+                                )
+                              )
+                            ],)
+                        ],
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -106,6 +141,7 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
             return Container(
               height: 70,
               decoration: const BoxDecoration(
+                color: Colors.white,
                 border: Border(
                     top: BorderSide(
                         color: Color.fromARGB(80, 133, 129, 129), width: 2.5)),
