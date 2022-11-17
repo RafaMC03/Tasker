@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TarefaAgendada {
   final String titulo;
   final String descricao;
-  final String data;
+  final DateTime data;
   final String id;
-  
+
   TarefaAgendada({
     required this.titulo,
     required this.descricao,
@@ -16,7 +18,7 @@ class TarefaAgendada {
   TarefaAgendada copyWith({
     String? titulo,
     String? descricao,
-    String? data,
+    DateTime? data,
     String? id,
   }) {
     return TarefaAgendada(
@@ -29,12 +31,12 @@ class TarefaAgendada {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'titulo': titulo});
     result.addAll({'descricao': descricao});
     result.addAll({'data': data});
     result.addAll({'id': id});
-  
+
     return result;
   }
 
@@ -42,14 +44,15 @@ class TarefaAgendada {
     return TarefaAgendada(
       titulo: map['titulo'] ?? '',
       descricao: map['descricao'] ?? '',
-      data: map['data'] ?? '',
+      data: (map['data'] as Timestamp?)?.toDate() ?? DateTime.now(),
       id: map['id'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory TarefaAgendada.fromJson(String source) => TarefaAgendada.fromMap(json.decode(source));
+  factory TarefaAgendada.fromJson(String source) =>
+      TarefaAgendada.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -59,19 +62,16 @@ class TarefaAgendada {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is TarefaAgendada &&
-      other.titulo == titulo &&
-      other.descricao == descricao &&
-      other.data == data &&
-      other.id == id;
+        other.titulo == titulo &&
+        other.descricao == descricao &&
+        other.data == data &&
+        other.id == id;
   }
 
   @override
   int get hashCode {
-    return titulo.hashCode ^
-      descricao.hashCode ^
-      data.hashCode ^
-      id.hashCode;
+    return titulo.hashCode ^ descricao.hashCode ^ data.hashCode ^ id.hashCode;
   }
 }

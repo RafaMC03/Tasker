@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:tasker/modules/home/controllers/controller.dart';
 
 class CampoFormTarefas extends StatefulWidget {
   final String label;
@@ -8,7 +10,7 @@ class CampoFormTarefas extends StatefulWidget {
   final bool isData;
   final TextEditingController controller;
 
-  CampoFormTarefas(
+  const CampoFormTarefas(
       {super.key,
       required this.label,
       required this.icone,
@@ -23,7 +25,7 @@ class CampoFormTarefas extends StatefulWidget {
 class _CampoFormTarefasState extends State<CampoFormTarefas> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 70,
       child: Row(
         children: [
@@ -41,38 +43,46 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
           Expanded(
             flex: 10,
             child: TextFormField(
-              onTap: widget.isData ? (() async {
-                                    final DateTime? pickedDate =
-                                        await showDatePicker(
-                                      context: context,
-                                      locale: const Locale('pt', 'BR'),
-                                      initialDate: DateTime.parse(widget.controller.text != '' ? '${widget.controller.text.split('/')[2]}''-''${widget.controller.text.split('/')[1]}''-''${widget.controller.text.split('/')[0]}' : DateTime.now().toString()),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.now()
-                                          .add(const Duration(days: 30)),
-                                      builder: ((context, child) {
-                                        return Theme(
-                                            data: ThemeData.light().copyWith(
-                                              primaryColor:
-                                                  const Color.fromARGB(
-                                                      255, 12, 175, 158),
-                                              colorScheme:
-                                                  const ColorScheme.light(
-                                                      onPrimary: Colors.black,
-                                                      primary: Color.fromARGB(
-                                                          255, 12, 175, 158)),
-                                              buttonTheme:
-                                                  const ButtonThemeData(
-                                                      textTheme: ButtonTextTheme
-                                                          .primary),
-                                            ),
-                                            child: child!);
-                                      }),
-                                    );
-                                    setState(() {
-                                      widget.controller.text = DateFormat('dd/MM/yyyy').format(pickedDate ?? DateTime.now());
-                                    });
-                                  }) : null,
+                onTap: widget.isData
+                    ? (() async {
+                        final DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          locale: const Locale('pt', 'BR'),
+                          initialDate:
+                              DateTime.parse(widget.controller.text != ''
+                                  ? '${widget.controller.text.split('/')[2]}'
+                                      '-'
+                                      '${widget.controller.text.split('/')[1]}'
+                                      '-'
+                                      '${widget.controller.text.split('/')[0]}'
+                                  : DateTime.now().toString()),
+                          firstDate: DateTime.now(),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 30)),
+                          builder: ((context, child) {
+                            return Theme(
+                                data: ThemeData.light().copyWith(
+                                  primaryColor:
+                                      const Color.fromARGB(255, 12, 175, 158),
+                                  colorScheme: const ColorScheme.light(
+                                      onPrimary: Colors.black,
+                                      primary:
+                                          Color.fromARGB(255, 12, 175, 158)),
+                                  buttonTheme: const ButtonThemeData(
+                                      textTheme: ButtonTextTheme.primary),
+                                ),
+                                child: child!);
+                          }),
+                        );
+                        setState(() {
+                          Provider.of<CadastroTarefasController>(context,
+                                  listen: false)
+                              .setData = pickedDate ?? DateTime.now();
+                          widget.controller.text = DateFormat('dd/MM/yyyy')
+                              .format(pickedDate ?? DateTime.now());
+                        });
+                      })
+                    : null,
                 readOnly: widget.isData,
                 controller: widget.controller,
                 focusNode: widget.node,
@@ -115,7 +125,15 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                         await showDatePicker(
                                       context: context,
                                       locale: const Locale('pt', 'BR'),
-                                      initialDate: DateTime.parse(widget.controller.text != '' ? '${widget.controller.text.split('/')[2]}''-''${widget.controller.text.split('/')[1]}''-''${widget.controller.text.split('/')[0]}' : DateTime.now().toString()),
+                                      initialDate: DateTime.parse(widget
+                                                  .controller.text !=
+                                              ''
+                                          ? '${widget.controller.text.split('/')[2]}'
+                                              '-'
+                                              '${widget.controller.text.split('/')[1]}'
+                                              '-'
+                                              '${widget.controller.text.split('/')[0]}'
+                                          : DateTime.now().toString()),
                                       firstDate: DateTime.now(),
                                       lastDate: DateTime.now()
                                           .add(const Duration(days: 30)),
@@ -139,7 +157,9 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                       }),
                                     );
                                     setState(() {
-                                      widget.controller.text = DateFormat('dd/MM/yyyy').format(pickedDate ?? DateTime.now());
+                                      widget.controller.text =
+                                          DateFormat('dd/MM/yyyy').format(
+                                              pickedDate ?? DateTime.now());
                                     });
                                   }),
                                   icon: Icon(

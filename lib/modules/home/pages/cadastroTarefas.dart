@@ -1,4 +1,6 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tasker/modules/home/controllers/controller.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_tarefas.dart';
@@ -13,8 +15,7 @@ class cadTarefas extends StatefulWidget {
 }
 
 class _cadTarefasState extends State<cadTarefas> {
-  final _controller = CadastroTarefasController();
-  List<FocusNode> _focusNodes = [
+  final List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
     FocusNode(),
@@ -23,15 +24,17 @@ class _cadTarefasState extends State<cadTarefas> {
   @override
   void initState() {
     super.initState();
-    _focusNodes.forEach((node) {
+    for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
       });
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<CadastroTarefasController>(context);
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -46,6 +49,7 @@ class _cadTarefasState extends State<cadTarefas> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Form(
+                  key: controller.formKey,
                   child: Column(
                     children: [
                       CampoFormTarefas(
@@ -53,21 +57,21 @@ class _cadTarefasState extends State<cadTarefas> {
                         icone: Icons.local_offer_outlined,
                         node: _focusNodes[0],
                         isData: false,
-                        controller: _controller.titulo,
+                        controller: controller.titulo,
                       ),
                       CampoFormTarefas(
                         label: 'Descrição',
                         icone: Icons.text_snippet_outlined,
                         node: _focusNodes[1],
                         isData: false,
-                        controller: _controller.descricao,
+                        controller: controller.descricao,
                       ),
                       CampoFormTarefas(
                         label: 'Data de Prazo',
                         icone: Icons.calendar_today_outlined,
                         node: _focusNodes[2],
                         isData: true,
-                        controller: _controller.data,
+                        controller: controller.data,
                       ),
                     ],
                   ),
@@ -81,7 +85,12 @@ class _cadTarefasState extends State<cadTarefas> {
                   child: BotaoComponente(
                       texto: 'Cadastrar tarefa',
                       corFundo: const Color.fromARGB(255, 12, 175, 158),
-                      onPressed: () {
+                      onPressed: () async {
+                        if (controller.formKey.currentState!.validate()) {
+                          var loading = BotToast.showLoading();
+                          await controller.criarTarefa();
+                          loading();
+                        }
                         Navigator.pop(context);
                       },
                       corTexto: Colors.white),

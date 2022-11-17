@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:tasker/modules/home/models/tarefa_model.dart';
 import 'package:tasker/modules/home/pages/cadastroTarefas.dart';
 import 'package:tasker/modules/home/pages/calendario.dart';
+import 'package:tasker/shared/components/tiles/homeTile.dart';
+import 'package:tasker/shared/controllers/tarefasController.dart';
 
 class HomeIndexPage extends StatefulWidget {
   const HomeIndexPage({Key? key}) : super(key: key);
@@ -14,26 +18,36 @@ class HomeIndexPage extends StatefulWidget {
 class _HomeIndexPageState extends State<HomeIndexPage> {
   final pageViewController = PageController();
   int _selectedIndex = 0;
-  int _tamanhoLinha = 2;
+  final int _tamanhoLinha = 2;
   bool _expandido = false;
 
   @override
-  Widget build(BuildContext conNtext) {
+  void initState() {
+    super.initState();
+    Provider.of<TarefasController>(context, listen: false).getTarefas();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var tarefas = Provider.of<TarefasController>(context);
     return Scaffold(
-      backgroundColor: _expandido == false ? const Color.fromARGB(255, 241, 241, 241) : Color.fromARGB(120, 241, 241, 241),
+      backgroundColor: _expandido == false
+          ? const Color.fromARGB(255, 241, 241, 241)
+          : const Color.fromARGB(120, 241, 241, 241),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeft,
                 child: const cadTarefas(),
                 duration: const Duration(milliseconds: 300)),
           );
+          tarefas.getTarefas();
         },
-        child: const Icon(Icons.add),
         backgroundColor: const Color.fromARGB(255, 12, 175, 158),
+        child: const Icon(Icons.add),
       ),
       appBar: AppBar(
         title: const Text('Tarefas'),
@@ -58,87 +72,49 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
               ))
         ],
       ),
-      body: PageView(
-        onPageChanged: (index) {
-          setState(() {
-            _selectedIndex = index;
-            _expandido = false;
-          });
-        },
-        controller: pageViewController,
-        children: [
-          SafeArea(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  //modelo das tarefas
-                  Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.027),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.92,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: const Color.fromARGB(255, 12, 175, 158),
-                              width: 2)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: ExpansionTile(
-                          backgroundColor: Colors.white,
-                          onExpansionChanged: (expandido){
-                            setState(() {
-                              _expandido = expandido;
-                              if(_tamanhoLinha < 20){
-                                _tamanhoLinha = 20;
-                              }
-                              else{
-                                _tamanhoLinha = 2;
-                              }
-                            });
-                          },
-                          trailing: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [ 
-                              const Text('30 nov', style: TextStyle(color: Color.fromARGB(255, 12, 175, 158)),),
-                              Text('Expandir', style: TextStyle(color: _expandido == false ? const Color.fromARGB(255, 12, 175, 158) : const Color.fromARGB(0, 0, 0, 0)),),
-                            ]
-                          ),                        
-                          subtitle: Text(
-                              'Terminar home page', maxLines: _tamanhoLinha, style: const TextStyle(color:Color.fromARGB(255, 133, 129, 129)),),
-                          title: const Text(
-                            'Sprint 3 - PSI',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 12, 175, 158),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.04,MediaQuery.of(context).size.width * 0.014),
-                                  child: TextButton(
-                                    child: const Text("Excluir", style: TextStyle(color: Color.fromARGB(255, 12, 175, 158))),
-                                    onPressed: () {
-                                      //função excluir
-                                    }
-                                  )
-                                )
-                              ],)
-                          ],
-                        ),
+      body: FutureBuilder<List<TarefaAgendada>>(
+          future: tarefas.getTarefasFut,
+          builder: (context, snap) {
+            debugPrint(snap.data.toString());
+            if (snap.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return PageView(
+              onPageChanged: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                  _expandido = false;
+                });
+              },
+              controller: pageViewController,
+              children: [
+                SafeArea(
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                          itemCount: snap.data!.length,
+                          itemBuilder: (context, i) =>
+                              HomeTileTarefa(snap.data![i]))
+
+                      /*Column(
+                      children: [
+                        //modelo das tarefas
+                        HomeTileTarefa(TarefaAgendada(
+                            data: DateTime(2022, 12, 11),
+                            titulo: "Sprint 3 - PSI",
+                            descricao:
+                                "Terminar Home Page até o dia marcado para valer todos os pontos e tempo gasto com esse lindo projeto maravilhoso da desgraa",
+                            id: "123"))
+                        
+                      ],
+                    ),*/
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          const Calendario()
-        ],
-      ),
+                ),
+                const Calendario()
+              ],
+            );
+          }),
       bottomNavigationBar: AnimatedBuilder(
           animation: pageViewController,
           builder: (context, snapshot) {
@@ -154,7 +130,7 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                 children: [
                   Expanded(
                       child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       setState(() {
                         _selectedIndex = 0;
@@ -168,14 +144,14 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                         children: <Widget>[
                           Icon(Icons.list,
                               color: _selectedIndex == 0
-                                  ? Color.fromARGB(255, 12, 175, 158)
-                                  : Color.fromARGB(140, 22, 20, 20)),
+                                  ? const Color.fromARGB(255, 12, 175, 158)
+                                  : const Color.fromARGB(140, 22, 20, 20)),
                           Text(
                             "Registros",
                             style: TextStyle(
                                 color: _selectedIndex == 0
-                                    ? Color.fromARGB(255, 12, 175, 158)
-                                    : Color.fromARGB(140, 22, 20, 20)),
+                                    ? const Color.fromARGB(255, 12, 175, 158)
+                                    : const Color.fromARGB(140, 22, 20, 20)),
                           )
                         ],
                       ),
@@ -189,7 +165,7 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                   ),
                   Expanded(
                       child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       setState(() {
                         _selectedIndex = 1;
@@ -203,14 +179,14 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                         children: <Widget>[
                           Icon(Icons.calendar_month,
                               color: _selectedIndex == 1
-                                  ? Color.fromARGB(255, 12, 175, 158)
-                                  : Color.fromARGB(140, 22, 20, 20)),
+                                  ? const Color.fromARGB(255, 12, 175, 158)
+                                  : const Color.fromARGB(140, 22, 20, 20)),
                           Text(
                             "Calendários",
                             style: TextStyle(
                                 color: _selectedIndex == 1
-                                    ? Color.fromARGB(255, 12, 175, 158)
-                                    : Color.fromARGB(140, 22, 20, 20)),
+                                    ? const Color.fromARGB(255, 12, 175, 158)
+                                    : const Color.fromARGB(140, 22, 20, 20)),
                           )
                         ],
                       ),
