@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CampoFormTarefas extends StatefulWidget {
   final String label;
@@ -40,6 +41,39 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
           Expanded(
             flex: 10,
             child: TextFormField(
+              onTap: widget.isData ? (() async {
+                                    final DateTime? pickedDate =
+                                        await showDatePicker(
+                                      context: context,
+                                      locale: const Locale('pt', 'BR'),
+                                      initialDate: DateTime.parse(widget.controller.text != '' ? '${widget.controller.text.split('/')[2]}''-''${widget.controller.text.split('/')[1]}''-''${widget.controller.text.split('/')[0]}' : DateTime.now().toString()),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 30)),
+                                      builder: ((context, child) {
+                                        return Theme(
+                                            data: ThemeData.light().copyWith(
+                                              primaryColor:
+                                                  const Color.fromARGB(
+                                                      255, 12, 175, 158),
+                                              colorScheme:
+                                                  const ColorScheme.light(
+                                                      onPrimary: Colors.black,
+                                                      primary: Color.fromARGB(
+                                                          255, 12, 175, 158)),
+                                              buttonTheme:
+                                                  const ButtonThemeData(
+                                                      textTheme: ButtonTextTheme
+                                                          .primary),
+                                            ),
+                                            child: child!);
+                                      }),
+                                    );
+                                    setState(() {
+                                      widget.controller.text = DateFormat('dd/MM/yyyy').format(pickedDate ?? DateTime.now());
+                                    });
+                                  }) : null,
+                readOnly: widget.isData,
                 controller: widget.controller,
                 focusNode: widget.node,
                 cursorColor: const Color.fromARGB(255, 12, 175, 158),
@@ -62,10 +96,9 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                   ),
                   suffixIcon: widget.isData
                       ? Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               VerticalDivider(
@@ -73,46 +106,53 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                 endIndent: 15,
                                 indent: 15,
                                 color: widget.node.hasFocus
-                                        ? const Color.fromARGB(255, 12, 175, 158)
-                                        : const Color.fromARGB(
-                                            255, 133, 129, 129),
+                                    ? const Color.fromARGB(255, 12, 175, 158)
+                                    : const Color.fromARGB(255, 133, 129, 129),
                               ),
                               IconButton(
-                                  onPressed: (() {
-                                    showDatePicker(
-                                        context: context,
-                                        locale: const Locale('pt', 'BR'),
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime.now()
-                                            .add(const Duration(days: 30)),
-                                        builder: ((context, child) {
-                                          return Theme(
-                                              data: ThemeData.light().copyWith(
-                                                primaryColor:
-                                                    const Color.fromARGB(
-                                                        255, 12, 175, 158),
-                                                colorScheme: const ColorScheme.light(
-                                                    onPrimary: Colors.black,
-                                                    primary: Color.fromARGB(
-                                                        255, 12, 175, 158)),
-                                                buttonTheme: const ButtonThemeData(
-                                                    textTheme:
-                                                        ButtonTextTheme.primary),
-                                              ),
-                                              child: child!);
-                                        }));
+                                  onPressed: (() async {
+                                    final DateTime? pickedDate =
+                                        await showDatePicker(
+                                      context: context,
+                                      locale: const Locale('pt', 'BR'),
+                                      initialDate: DateTime.parse(widget.controller.text != '' ? '${widget.controller.text.split('/')[2]}''-''${widget.controller.text.split('/')[1]}''-''${widget.controller.text.split('/')[0]}' : DateTime.now().toString()),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 30)),
+                                      builder: ((context, child) {
+                                        return Theme(
+                                            data: ThemeData.light().copyWith(
+                                              primaryColor:
+                                                  const Color.fromARGB(
+                                                      255, 12, 175, 158),
+                                              colorScheme:
+                                                  const ColorScheme.light(
+                                                      onPrimary: Colors.black,
+                                                      primary: Color.fromARGB(
+                                                          255, 12, 175, 158)),
+                                              buttonTheme:
+                                                  const ButtonThemeData(
+                                                      textTheme: ButtonTextTheme
+                                                          .primary),
+                                            ),
+                                            child: child!);
+                                      }),
+                                    );
+                                    setState(() {
+                                      widget.controller.text = DateFormat('dd/MM/yyyy').format(pickedDate ?? DateTime.now());
+                                    });
                                   }),
                                   icon: Icon(
                                     Icons.calendar_today_outlined,
                                     color: widget.node.hasFocus
-                                        ? const Color.fromARGB(255, 12, 175, 158)
+                                        ? const Color.fromARGB(
+                                            255, 12, 175, 158)
                                         : const Color.fromARGB(
                                             255, 133, 129, 129),
                                   ))
                             ],
                           ),
-                      )
+                        )
                       : null,
                 )),
           ),

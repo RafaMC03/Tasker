@@ -82,7 +82,7 @@ class _cadTarefasState extends State<cadTarefas> {
                       texto: 'Cadastrar tarefa',
                       corFundo: const Color.fromARGB(255, 12, 175, 158),
                       onPressed: () {
-                        Navigator.pop(context); // usar a função DateFormat('dd/MM/yyyy').format(data) para passar a data pro banco
+                        Navigator.pop(context);
                       },
                       corTexto: Colors.white),
                 ),

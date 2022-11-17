@@ -62,6 +62,7 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
         onPageChanged: (index) {
           setState(() {
             _selectedIndex = index;
+            _expandido = false;
           });
         },
         controller: pageViewController,
