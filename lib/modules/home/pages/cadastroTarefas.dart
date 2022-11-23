@@ -29,6 +29,15 @@ class _cadTarefasState extends State<cadTarefas> {
         setState(() {});
       });
     }
+    Provider.of<CadastroTarefasController>(context, listen: false)
+        .titulo
+        .clear();
+    Provider.of<CadastroTarefasController>(context, listen: false).data.clear();
+    Provider.of<CadastroTarefasController>(context, listen: false).dataTime =
+        null;
+    Provider.of<CadastroTarefasController>(context, listen: false)
+        .descricao
+        .clear();
   }
 
   @override

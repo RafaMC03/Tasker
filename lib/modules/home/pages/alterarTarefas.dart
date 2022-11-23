@@ -111,11 +111,13 @@ class _altTarefasState extends State<altTarefas> {
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
                           var loading = BotToast.showLoading();
-                          await controller.alterarTarefa(widget.tarefa);
+                          var response = await controller.alterarTarefa(widget.tarefa);
                           loading();
+                          if (response ?? false) {
+                            Navigator.pop(context, true);
+                          }
                         }
-                        if (!mounted) return;
-                        Navigator.pop(context, true);
+                        if (!mounted) return;                        
                       },
                       corTexto: Colors.white),
                 ),

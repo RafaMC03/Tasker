@@ -43,6 +43,7 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
           Expanded(
             flex: 10,
             child: TextFormField(
+                autovalidateMode: widget.controller.text.isNotEmpty ? AutovalidateMode.always : AutovalidateMode.disabled,
                 onTap: widget.isData
                     ? (() async {
                         final DateTime? pickedDate = await showDatePicker(
@@ -109,6 +110,10 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                           color: Color.fromARGB(255, 12, 175, 158), width: 2)),
                   label: Text(
                     widget.label,
+                  ),
+                  errorStyle: TextStyle(
+                    fontSize: 10,
+                    height: 1
                   ),
                   suffixIcon: widget.isData
                       ? Padding(

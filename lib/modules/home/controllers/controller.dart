@@ -56,24 +56,30 @@ class CadastroTarefasController extends ChangeNotifier {
     }
   }
 
-  Future<void> alterarTarefa(TarefaAgendada tarefa) async {
-    try {
-      await _banco
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection("tarefas")
-          .doc(tarefa.id)
-          .update({
-        "titulo": titulo.text,
-        "descricao": descricao.text,
-        "data": Timestamp.fromDate(dataTime!)
-      });
-      titulo.text = "";
-      data.text = "";
-      dataTime = null;
-      descricao.text = "";
-    } on Exception catch (e) {
-      debugPrint(e.toString());
+  Future<bool?> alterarTarefa(TarefaAgendada tarefa) async {
+    if (formKey.currentState!.validate()) {
+      try {
+        await _banco
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("tarefas")
+            .doc(tarefa.id)
+            .update({
+          "titulo": titulo.text,
+          "descricao": descricao.text,
+          "data": Timestamp.fromDate(dataTime!)
+        });
+        titulo.text = "";
+        data.text = "";
+        dataTime = null;
+        descricao.text = "";
+        return true;
+      } on Exception catch (e) {
+        debugPrint(e.toString());
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }

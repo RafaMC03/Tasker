@@ -145,6 +145,21 @@ class _HomeTileTarefaState extends State<HomeTileTarefa> {
                                   child: altTarefas(widget.tarefa),
                                   duration: const Duration(milliseconds: 300)),
                             );
+                            Provider.of<CadastroTarefasController>(context,
+                                    listen: false)
+                                .titulo
+                                .clear();
+                            Provider.of<CadastroTarefasController>(context,
+                                        listen: false)
+                                    .data
+                                    .clear();
+                            Provider.of<CadastroTarefasController>(context,
+                                    listen: false)
+                                .dataTime = null;
+                            Provider.of<CadastroTarefasController>(context,
+                                    listen: false)
+                                .descricao
+                                .clear();
                             tarefas.getTarefas();
                           })),
                   Padding(
@@ -155,10 +170,76 @@ class _HomeTileTarefaState extends State<HomeTileTarefa> {
                               style: TextStyle(
                                   color: Color.fromARGB(255, 12, 175, 158))),
                           onPressed: () async {
-                            var loading = BotToast.showLoading();
-                            await _controller.excluirTarefa(widget.tarefa);
-                            tarefas.getTarefas();
-                            loading();
+                            showDialog(
+                              context: context,
+                              builder: (context) => Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color.fromARGB(
+                                                255, 12, 175, 158),
+                                            width: 2),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          "Excluir essa tarefa?",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w100,
+                                              fontSize: 15,
+                                              color: Color.fromARGB(
+                                                  255, 133, 129, 129)),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            TextButton(
+                                                child: const Text("Cancelar",
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            12,
+                                                            175,
+                                                            158))),
+                                                onPressed: () async {
+                                                  Navigator.pop(context);
+                                                }),
+                                            TextButton(
+                                                child: const Text("Excluir",
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            12,
+                                                            175,
+                                                            158))),
+                                                onPressed: () async {
+                                                  var loading =
+                                                      BotToast.showLoading();
+                                                  await _controller
+                                                      .excluirTarefa(
+                                                          widget.tarefa);
+                                                  Navigator.pop(context);
+                                                  tarefas.getTarefas();
+                                                  loading();
+                                                }),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                            );
                           }))
                 ],
               )
