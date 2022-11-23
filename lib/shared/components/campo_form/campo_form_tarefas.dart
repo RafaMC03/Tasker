@@ -58,7 +58,7 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                   : DateTime.now().toString()),
                           firstDate: DateTime.now(),
                           lastDate:
-                              DateTime.now().add(const Duration(days: 30)),
+                              DateTime.now().add(const Duration(days: 365)),
                           builder: ((context, child) {
                             return Theme(
                                 data: ThemeData.light().copyWith(
@@ -136,7 +136,7 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                           : DateTime.now().toString()),
                                       firstDate: DateTime.now(),
                                       lastDate: DateTime.now()
-                                          .add(const Duration(days: 30)),
+                                          .add(const Duration(days: 365)),
                                       builder: ((context, child) {
                                         return Theme(
                                             data: ThemeData.light().copyWith(
@@ -157,6 +157,11 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                                       }),
                                     );
                                     setState(() {
+                                      Provider.of<CadastroTarefasController>(
+                                                  context,
+                                                  listen: false)
+                                              .setData =
+                                          pickedDate ?? DateTime.now();
                                       widget.controller.text =
                                           DateFormat('dd/MM/yyyy').format(
                                               pickedDate ?? DateTime.now());

@@ -2,19 +2,22 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasker/modules/home/controllers/controller.dart';
+import 'package:tasker/modules/home/models/tarefa_model.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_tarefas.dart';
 
 final controllerTitulo = TextEditingController();
 
-class cadTarefas extends StatefulWidget {
-  const cadTarefas({super.key});
+class altTarefas extends StatefulWidget {
+  altTarefas(this.tarefa, {super.key});
+  TarefaAgendada tarefa;
 
   @override
-  State<cadTarefas> createState() => _cadTarefasState();
+  State<altTarefas> createState() => _altTarefasState();
 }
 
-class _cadTarefasState extends State<cadTarefas> {
+class _altTarefasState extends State<altTarefas> {
+
   final List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -32,6 +35,11 @@ class _cadTarefasState extends State<cadTarefas> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controller = Provider.of<CadastroTarefasController>(context);
 
@@ -39,7 +47,7 @@ class _cadTarefasState extends State<cadTarefas> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Nova tarefa'),
+          title: const Text('Alterar tarefa'),
           backgroundColor: const Color.fromARGB(255, 12, 175, 158),
           leading: BackButton(
             onPressed: () {
@@ -88,12 +96,12 @@ class _cadTarefasState extends State<cadTarefas> {
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: BotaoComponente(
-                      texto: 'Cadastrar tarefa',
+                      texto: 'Alterar tarefa',
                       corFundo: const Color.fromARGB(255, 12, 175, 158),
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
                           var loading = BotToast.showLoading();
-                          await controller.criarTarefa();
+                          await controller.alterarTarefa(widget.tarefa);
                           loading();
                         }
                         Navigator.pop(context, true);

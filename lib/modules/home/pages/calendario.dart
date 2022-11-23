@@ -103,7 +103,7 @@ class _CalendarioState extends State<Calendario> {
                       locale: "pt_BR",
                       focusedDay: _focusedDay,
                       firstDay: DateTime.now(),
-                      lastDay: DateTime.now().add(const Duration(days: 30)),
+                      lastDay: DateTime.now().add(const Duration(days: 365)),
                       availableCalendarFormats: const {
                         CalendarFormat.month: 'Mês'
                       },

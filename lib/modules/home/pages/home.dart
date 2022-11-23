@@ -9,6 +9,7 @@ import 'package:tasker/shared/components/tiles/homeTile.dart';
 import 'package:tasker/shared/controllers/tarefasController.dart';
 
 class HomeIndexPage extends StatefulWidget {
+
   const HomeIndexPage({Key? key}) : super(key: key);
 
   @override
@@ -37,13 +38,14 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await Navigator.push(
+          bool volta = await Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.rightToLeft,
                 child: const cadTarefas(),
                 duration: const Duration(milliseconds: 300)),
           );
+          volta ? _selectedIndex = 0 : _selectedIndex = 1;
           tarefas.getTarefas();
         },
         backgroundColor: const Color.fromARGB(255, 12, 175, 158),
@@ -94,8 +96,8 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
                           itemCount: snap.data!.length,
-                          itemBuilder: (context, i) =>
-                              HomeTileTarefa(snap.data![i]))
+                          itemBuilder: (context, i) => 
+                            HomeTileTarefa(snap.data![i]))
 
                       /*Column(
                       children: [
@@ -194,26 +196,6 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                   )),
                 ],
               ),
-              // child: BottomNavigationBar(
-              //   fixedColor: const Color.fromARGB(255, 12, 175, 158),
-              //   currentIndex: pageViewController.page?.round() ?? 0,
-              //   onTap: (index) {
-              //     pageViewController.jumpToPage(index);
-              //   },
-              //   items: const [
-              //     BottomNavigationBarItem(
-              //       tooltip: 'Todas as Tarefas',
-              //       icon: Icon(
-              //         Icons.list,
-              //       ),
-              //       label: 'Registros',
-              //     ),
-              //     BottomNavigationBarItem(
-              //         tooltip: 'Calendário de Tarefas',
-              //         icon: Icon(Icons.calendar_month),
-              //         label: 'Calandário'),
-              //   ],
-              // )
             );
           }),
     );

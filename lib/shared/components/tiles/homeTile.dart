@@ -1,6 +1,13 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:tasker/modules/home/controllers/controller.dart';
 import 'package:tasker/modules/home/models/tarefa_model.dart';
 import 'package:intl/intl.dart';
+import 'package:tasker/modules/home/pages/alterarTarefas.dart';
+import 'package:tasker/modules/home/pages/home.dart';
+import 'package:tasker/shared/controllers/tarefasController.dart';
 
 class HomeTileTarefa extends StatefulWidget {
   HomeTileTarefa(this.tarefa, {Key? key}) : super(key: key);
@@ -14,6 +21,7 @@ class _HomeTileTarefaState extends State<HomeTileTarefa> {
   bool _expandido = false;
   DateFormat diaFormat = DateFormat("dd MMM");
   String diaFormatado = "";
+  final _controller = CadastroTarefasController();
 
   @override
   void initState() {
@@ -64,6 +72,8 @@ class _HomeTileTarefaState extends State<HomeTileTarefa> {
 
   @override
   Widget build(BuildContext context) {
+    var tarefas = Provider.of<TarefasController>(context);
+
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.027),
       child: Container(
@@ -123,16 +133,32 @@ class _HomeTileTarefaState extends State<HomeTileTarefa> {
                 children: [
                   Padding(
                       padding: EdgeInsets.fromLTRB(
-                          0,
-                          0,
-                          MediaQuery.of(context).size.width * 0.04,
-                          MediaQuery.of(context).size.width * 0.014),
+                          0, 0, MediaQuery.of(context).size.width * 0.04, 0),
+                      child: TextButton(
+                          child: const Text("Alterar",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 12, 175, 158))),
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: altTarefas(widget.tarefa),
+                                  duration: const Duration(milliseconds: 300)),
+                            );
+                          })),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0, 0, MediaQuery.of(context).size.width * 0.04, 0),
                       child: TextButton(
                           child: const Text("Excluir",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 12, 175, 158))),
-                          onPressed: () {
-                            //função excluir
+                          onPressed: () async {
+                            var loading = BotToast.showLoading();
+                            await _controller.excluirTarefa(widget.tarefa);
+                            tarefas.getTarefas();
+                            loading();
                           }))
                 ],
               )
