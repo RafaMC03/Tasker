@@ -83,6 +83,12 @@ class _CampoFormTarefasState extends State<CampoFormTarefas> {
                         });
                       })
                     : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Preencha os dados";
+                  }
+                  return null;
+                },
                 readOnly: widget.isData,
                 controller: widget.controller,
                 focusNode: widget.node,

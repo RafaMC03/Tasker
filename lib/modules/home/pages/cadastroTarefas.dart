@@ -93,10 +93,12 @@ class _cadTarefasState extends State<cadTarefas> {
                       onPressed: () async {
                         if (controller.formKey.currentState!.validate()) {
                           var loading = BotToast.showLoading();
-                          await controller.criarTarefa();
+                          var response = await controller.criarTarefa();
                           loading();
+                          if (response ?? false) {
+                            Navigator.pop(context, true);
+                          }
                         }
-                        Navigator.pop(context, true);
                       },
                       corTexto: Colors.white),
                 ),
