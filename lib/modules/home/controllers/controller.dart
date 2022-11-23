@@ -36,11 +36,11 @@ class CadastroTarefasController extends ChangeNotifier {
         return true;
       } on Exception catch (e) {
         debugPrint(e.toString());
+        return false;
       }
     } else {
       return false;
     }
-    return null;
   }
 
   Future<void> excluirTarefa(TarefaAgendada tarefa) async {
