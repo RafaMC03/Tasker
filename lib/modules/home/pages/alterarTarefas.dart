@@ -5,6 +5,7 @@ import 'package:tasker/modules/home/controllers/controller.dart';
 import 'package:tasker/modules/home/models/tarefa_model.dart';
 import 'package:tasker/shared/components/botoes/botao_componente.dart';
 import 'package:tasker/shared/components/campo_form/campo_form_tarefas.dart';
+import 'package:intl/intl.dart';
 
 final controllerTitulo = TextEditingController();
 
@@ -17,7 +18,6 @@ class altTarefas extends StatefulWidget {
 }
 
 class _altTarefasState extends State<altTarefas> {
-
   final List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -27,6 +27,16 @@ class _altTarefasState extends State<altTarefas> {
   @override
   void initState() {
     super.initState();
+    Provider.of<CadastroTarefasController>(context, listen: false).titulo.text =
+        widget.tarefa.titulo;
+    Provider.of<CadastroTarefasController>(context, listen: false).data.text =
+        DateFormat('dd/MM/yyyy').format(widget.tarefa.data);
+    Provider.of<CadastroTarefasController>(context, listen: false).dataTime =
+        widget.tarefa.data;
+    Provider.of<CadastroTarefasController>(context, listen: false)
+        .descricao
+        .text = widget.tarefa.descricao;
+
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
@@ -104,6 +114,7 @@ class _altTarefasState extends State<altTarefas> {
                           await controller.alterarTarefa(widget.tarefa);
                           loading();
                         }
+                        if (!mounted) return;
                         Navigator.pop(context, true);
                       },
                       corTexto: Colors.white),

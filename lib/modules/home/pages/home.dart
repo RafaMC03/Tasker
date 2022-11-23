@@ -9,7 +9,6 @@ import 'package:tasker/shared/components/tiles/homeTile.dart';
 import 'package:tasker/shared/controllers/tarefasController.dart';
 
 class HomeIndexPage extends StatefulWidget {
-
   const HomeIndexPage({Key? key}) : super(key: key);
 
   @override
@@ -96,22 +95,8 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
                           itemCount: snap.data!.length,
-                          itemBuilder: (context, i) => 
-                            HomeTileTarefa(snap.data![i]))
-
-                      /*Column(
-                      children: [
-                        //modelo das tarefas
-                        HomeTileTarefa(TarefaAgendada(
-                            data: DateTime(2022, 12, 11),
-                            titulo: "Sprint 3 - PSI",
-                            descricao:
-                                "Terminar Home Page até o dia marcado para valer todos os pontos e tempo gasto com esse lindo projeto maravilhoso da desgraa",
-                            id: "123"))
-                        
-                      ],
-                    ),*/
-                      ),
+                          itemBuilder: (context, i) =>
+                              HomeTileTarefa(snap.data![i]))),
                 ),
                 const Calendario()
               ],

@@ -6,7 +6,6 @@ import 'package:tasker/modules/home/controllers/controller.dart';
 import 'package:tasker/modules/home/models/tarefa_model.dart';
 import 'package:intl/intl.dart';
 import 'package:tasker/modules/home/pages/alterarTarefas.dart';
-import 'package:tasker/modules/home/pages/home.dart';
 import 'package:tasker/shared/controllers/tarefasController.dart';
 
 class HomeTileTarefa extends StatefulWidget {
@@ -146,6 +145,7 @@ class _HomeTileTarefaState extends State<HomeTileTarefa> {
                                   child: altTarefas(widget.tarefa),
                                   duration: const Duration(milliseconds: 300)),
                             );
+                            tarefas.getTarefas();
                           })),
                   Padding(
                       padding: EdgeInsets.fromLTRB(

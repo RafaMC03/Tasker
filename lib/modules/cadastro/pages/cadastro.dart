@@ -106,7 +106,6 @@ class _CadastroPageState extends State<CadastroPage> {
                                     const Color.fromARGB(255, 12, 175, 158),
                                 onPressed: () async {
                                   await _controller.criarConta(() {
-                                    //TODO: Mudar rota
                                     Navigator.pop(
                                       context,
                                     );
