@@ -65,69 +65,57 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
               ),
               onPressed: () async {
                 showDialog(
-                              context: context,
-                              builder: (context) => Dialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
+                  context: context,
+                  builder: (context) => Dialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Color.fromARGB(255, 12, 175, 158),
+                                width: 2),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 10),
+                            Text(
+                              "Certeza que deseja sair?",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 133, 129, 129)),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                    child: const Text("Cancelar",
+                                        style: TextStyle(
                                             color: Color.fromARGB(
-                                                255, 12, 175, 158),
-                                            width: 2),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          "Certeza que deseja sair?",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w100,
-                                              fontSize: 15,
-                                              color: Color.fromARGB(
-                                                  255, 133, 129, 129)),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            TextButton(
-                                                child: const Text("Cancelar",
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            12,
-                                                            175,
-                                                            158))),
-                                                onPressed: () async {
-                                                  Navigator.pop(context);
-                                                }),
-                                            TextButton(
-                                                child: const Text("Sair",
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            12,
-                                                            175,
-                                                            158))),
-                                                onPressed: () async {
-                                                  Navigator.pop(context);
-                                                  await FirebaseAuth.instance.signOut();
-                                                }),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                            );
+                                                255, 12, 175, 158))),
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                    }),
+                                TextButton(
+                                    child: const Text("Sair",
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 12, 175, 158))),
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                      await FirebaseAuth.instance.signOut();
+                                    }),
+                              ],
+                            )
+                          ],
+                        ),
+                      )),
+                );
               },
               label: const Text(
                 "Logout",
@@ -156,10 +144,18 @@ class _HomeIndexPageState extends State<HomeIndexPage> {
                   child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                          itemCount: snap.data!.length,
-                          itemBuilder: (context, i) =>
-                              HomeTileTarefa(snap.data![i]))),
+                      child: snap.data!.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: snap.data!.length,
+                              itemBuilder: (context, i) =>
+                                  HomeTileTarefa(snap.data![i]))
+                          : const Center(
+                              child: Text(
+                              "Sem tarefas cadastradas",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(130, 0, 0, 0)),
+                            ))),
                 ),
                 const Calendario()
               ],
