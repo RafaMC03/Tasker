@@ -1,16 +1,27 @@
-# tasker
+# Tasker
 
-A new Flutter project.
+Projeto de Programação para dispositivos móveis desenvolvido no ultimo ano do ensino técnico no CEFET-MG (2022) durante as aulas, foi utilizado Flutter e Dart juntamente com o banco da dados FireBase
 
-## Getting Started
+Orientador: Prof. Raulivan Rodrigo
 
-This project is a starting point for a Flutter application.
+## Preview
 
-A few resources to get you started if this is your first Flutter project:
+- ### Index
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![alt text](prints/index.jpeg)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- ### Login
+
+![alt text](prints/login.jpeg)
+
+- ### Cadastro
+
+![alt text](prints/cadastro.jpeg)
+
+- ### Home
+
+![alt text](prints/home.jpeg)
+
+- ### Calendário
+
+![alt text](prints/calendario.jpeg)
